@@ -1,19 +1,23 @@
 :root {
   color-scheme: light dark;
   background-color: #ffffff;
+  --bg-primary: #252526;
+  --bg-sidebar: #1E1E1E;
+  --border-color: #333333;
+  --text-primary: #E6EDF3;
+  --accent: #4EC9B0;
+  --hover-bg: #2A2D2E;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    background-color: #16171d;
+    background-color: var(--bg-primary);
   }
 }
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0;
   min-width: 320px;
   min-height: 100svh;
   font-synthesis: none;
