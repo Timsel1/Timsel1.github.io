@@ -11,6 +11,32 @@ import "../pages/flappy-burd-leaderboard";
 export class App extends LitElement {
   static styles = unsafeCSS(styles);
 
+  private router = new UniversalRouter([
+    { path: "/", action: () => "<home-page></home-page>" },
+    {
+      path: "/flappy-burd",
+      action: () => "<flappy-burd-page></flappy-burd-page>",
+    },
+    {
+      path: "/leaderboard",
+      action: () => "<leaderboard-page></leaderboard-page>",
+    },
+  ]);
+
+  firstUpdated() {
+    this.navigate(window.location.pathname);
+
+    window.addEventListener("popstate", () => {
+      this.navigate(window.location.pathname);
+    });
+  }
+
+  async navigate(path: string) {
+    const result = await this.router.resolve(path);
+    const main = this.shadowRoot!.querySelector("main")!;
+    main.innerHTML = result as string;
+  }
+
   render() {
     return html`
       <nav-sidebar></nav-sidebar>
