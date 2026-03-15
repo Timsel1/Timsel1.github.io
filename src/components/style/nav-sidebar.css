@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 100vh;
+  padding: 10px;
+  gap: 15px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+}
+
+.nav-button {
+  text-decoration: none;
+  color: var(--text-primary);
+  padding: 5px;
+  border-radius: 5px;
+  display: block;
+}
+
+.nav-button:hover {
+  background: var(--hover-bg);
+  color: var(--accent);
+}
