@@ -12,7 +12,10 @@ export class App extends LitElement {
   static styles = unsafeCSS(styles);
 
   private router = new UniversalRouter([
-    { path: "/", action: () => "<home-page></home-page>" },
+    {
+      path: "/",
+      action: () => "<home-page></home-page>",
+    },
     {
       path: "/flappy-burd",
       action: () => "<flappy-burd-page></flappy-burd-page>",

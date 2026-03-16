@@ -1,0 +1,17 @@
+:host{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.grid {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(2, 200px);
+    grid-template-rows: repeat(2, 100px);
+    gap: 15px;
+    flex: 1;
+}

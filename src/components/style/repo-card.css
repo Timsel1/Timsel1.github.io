@@ -1,0 +1,36 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    border-radius: 15px;
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.left-card-side {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.left-card-side p {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.right-card-side {
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.language{
+    color: antiquewhite;
+    flex-shrink: 0;
+}
