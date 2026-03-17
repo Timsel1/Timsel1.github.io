@@ -12,7 +12,7 @@ export class Home extends LitElement {
     return html`
       <p>home</p>
       <div class="centered">
-        <grid-carousel gridSize="4" scrollInterval="10000">
+        <grid-carousel columns="2" rows="2" scrollInterval="10000">
           <repo-card
             name="project 1"
             description="description 1"
