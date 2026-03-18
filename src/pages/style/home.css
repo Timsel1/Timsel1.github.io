@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  gap: 15px;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
