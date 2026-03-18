@@ -1,5 +1,6 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { icons } from "../icons";
 import styles from "./style/repo-card.css?raw";
 
 @customElement("repo-card")
@@ -13,13 +14,15 @@ export class RepoCard extends LitElement {
 
   render() {
     return html`
-      <div class="left-card-side">
-        <a href=${this.url} target="_blank">${this.name}</a>
-        <p>${this.description}</p>
-      </div>
-      <div class="right-card-side">
-        <span class="language">${this.language}</span>
-      </div>
+      <a href=${this.url} target="_blank">
+        <div class="left-card-side">
+          <span class="name"> ${icons["album"]} ${this.name} </span>
+          <p>${this.description}</p>
+        </div>
+        <div class="right-card-side">
+          <span class="language">${this.language}</span>
+        </div>
+      </a>
     `;
   }
 }

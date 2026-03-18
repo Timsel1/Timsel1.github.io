@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { styleMap } from "lit/directives/style-map.js";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./style/grid-carousel.css?raw";
+import "./round-button";
 
 @customElement("grid-carousel")
 export class GridCarousel extends LitElement {
@@ -19,9 +20,7 @@ export class GridCarousel extends LitElement {
   private onSlotChange() {
     const slot = this.shadowRoot!.querySelector("slot") as HTMLSlotElement;
     this._slottedItems = Array.from(slot.assignedElements());
-    this._totalPages = Math.ceil(
-      this._slottedItems.length / (this.columns * this.rows),
-    );
+    this._totalPages = Math.ceil(this._slottedItems.length / (this.columns * this.rows));
     this.showPage(0);
   }
 
@@ -88,11 +87,21 @@ export class GridCarousel extends LitElement {
     };
 
     return html`
-      <button @click=${this.onPrevClick}>‹</button>
+      <round-button
+        icon="chevron-left"
+        size="medium"
+        background="transparent"
+        @click=${this.onPrevClick}
+      ></round-button>
       <div class="grid" style=${styleMap(gridStyles)}>
         <slot @slotchange=${this.onSlotChange}></slot>
       </div>
-      <button @click=${this.onNextClick}>›</button>
+      <round-button
+        icon="chevron-right"
+        size="medium"
+        background="transparent"
+        @click=${this.onNextClick}
+      ></round-button>
     `;
   }
 }
