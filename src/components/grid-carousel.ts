@@ -11,36 +11,16 @@ export class GridCarousel extends LitElement {
   @property({ type: Number }) columns: number = 2;
   @property({ type: Number }) rows: number = 2;
   @property({ type: Number }) scrollInterval: number = 5000;
+  @property({ type: Number }) pageCount: number = 0;
 
   @state() private _currentPage: number = 0;
-  @state() private _totalPages: number = 0;
-  private _slottedItems: Element[] = [];
   private _autoScrollTimer: number | null = null;
-
-  private onSlotChange() {
-    const slot = this.shadowRoot!.querySelector("slot") as HTMLSlotElement;
-    this._slottedItems = Array.from(slot.assignedElements());
-    this._totalPages = Math.ceil(this._slottedItems.length / (this.columns * this.rows));
-    this.showPage(0);
-  }
-
-  private showPage(page: number) {
-    this._slottedItems.forEach((item, index) => {
-      const itemPage = Math.floor(index / (this.columns * this.rows));
-      if (itemPage === page) {
-        (item as HTMLElement).style.display = "flex";
-      } else {
-        (item as HTMLElement).style.display = "none";
-      }
-    });
-  }
 
   private next() {
     this._currentPage += 1;
-    if (this._currentPage >= this._totalPages) {
+    if (this._currentPage >= this.pageCount) {
       this._currentPage = 0;
     }
-    this.showPage(this._currentPage);
   }
 
   private onNextClick() {
@@ -51,9 +31,8 @@ export class GridCarousel extends LitElement {
   private onPrevClick() {
     this._currentPage -= 1;
     if (this._currentPage < 0) {
-      this._currentPage = this._totalPages - 1;
+      this._currentPage = this.pageCount - 1;
     }
-    this.showPage(this._currentPage);
     this.resetAutoScrollTimer();
   }
 
@@ -81,11 +60,6 @@ export class GridCarousel extends LitElement {
   }
 
   render() {
-    const gridStyles = {
-      gridTemplateColumns: `repeat(${this.columns}, 1fr)`,
-      gridTemplateRows: `repeat(${this.rows}, 1fr)`,
-    };
-
     return html`
       <round-button
         icon="chevron-left"
@@ -93,8 +67,29 @@ export class GridCarousel extends LitElement {
         background="transparent"
         @click=${this.onPrevClick}
       ></round-button>
-      <div class="grid" style=${styleMap(gridStyles)}>
-        <slot @slotchange=${this.onSlotChange}></slot>
+      <div class="track-container">
+        <div
+          class="track"
+          style=${styleMap({
+            transform: `translateX(-${this._currentPage * 100}%)`,
+            transition: "transform 0.4s ease",
+          })}
+        >
+          ${Array.from(
+            { length: this.pageCount },
+            (_, i) => html`
+              <div
+                class="page"
+                style=${styleMap({
+                  gridTemplateColumns: `repeat(${this.columns}, 1fr)`,
+                  gridTemplateRows: `repeat(${this.rows}, 1fr)`,
+                })}
+              >
+                <slot name="page-${i}"></slot>
+              </div>
+            `,
+          )}
+        </div>
       </div>
       <round-button
         icon="chevron-right"

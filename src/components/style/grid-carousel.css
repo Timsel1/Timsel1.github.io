@@ -7,6 +7,7 @@
   box-sizing: border-box;
   flex: 1;
   gap: 10px;
+  transition: opacity 0.3s ease;
 }
 
 .grid {
@@ -18,4 +19,21 @@
 
 round-button {
   align-self: center;
+}
+
+.track-container {
+  flex: 1;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  flex-direction: row;
+}
+
+.page {
+  display: grid;
+  gap: 15px;
+  min-width: 100%;
+  align-content: center;
 }

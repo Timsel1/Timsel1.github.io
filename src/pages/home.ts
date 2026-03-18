@@ -1,6 +1,8 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { GithubService } from "../services/github-service";
+import { renderPages } from "../utils/carousel-utils";
+import { getPages } from "../utils/array-utils";
 import type { Repo } from "../interfaces/models/repo";
 import "../components/repo-card";
 import "../components/grid-carousel";
@@ -18,13 +20,22 @@ export class Home extends LitElement {
   }
 
   render() {
+    const repoPages = getPages(this._repos, 2, 2);
+
     return html`
       <p>home</p>
       <div class="centered">
-        <grid-carousel columns="2" rows="2" scrollInterval="10000">
-          ${this._repos.map(
-            (repo) => html`
+        <grid-carousel
+          columns="2"
+          rows="2"
+          scrollInterval="10000"
+          pageCount=${repoPages.length}
+        >
+          ${renderPages(
+            repoPages,
+            (repo, pageIndex) => html`
               <repo-card
+                slot="page-${pageIndex}"
                 name=${repo.name}
                 description=${repo.description}
                 language=${repo.language}
