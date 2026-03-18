@@ -1,3 +1,0 @@
-:host([size="small"]) button { font-size: 1rem; }
-:host([size="medium"]) button { font-size: 2rem; }
-:host([size="large"]) button { font-size: 3rem; }
