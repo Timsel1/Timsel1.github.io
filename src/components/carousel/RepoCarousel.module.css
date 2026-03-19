@@ -1,33 +1,32 @@
+/* Outer wrapper — relative so arrows can position against it */
 .embla {
   position: relative;
+  /* Leave space on each side for the arrow buttons (36px button + 8px gap) */
+  padding: 0 52px;
 }
 
-/* overflow: hidden here clips slides that are far away,
-   but the padding lets the immediate neighbours peek through */
+/* Clips far slides but padding reveals the peek */
 .viewport {
   overflow: hidden;
-  padding: 0 10%;
+  /* This padding is what makes neighbours visible —
+     Embla's slides overflow into this space */
+  padding: 0 8%;
 }
 
 .container {
   display: flex;
   touch-action: pan-y pinch-zoom;
   gap: 16px;
-  /* negative margin counteracts the viewport padding so
-     the active slide still fills the available width */
-  margin-left: -10%;
-  margin-right: -10%;
+  margin-left: -8%;
+  margin-right: -8%;
 }
 
-/* Each slide is 80% wide — the remaining 20% is shared
-   between the peeking neighbours (10% each side) */
+/* 84% wide — 16% left over for peeking neighbours (8% each side) */
 .slide {
-  flex: 0 0 80%;
+  flex: 0 0 84%;
   min-width: 0;
 }
 
-/* The inner wrapper is what gets scaled by tweenScale.
-   transition: transform gives it the smooth ease feel */
 .slideInner {
   transition: transform 0.3s ease;
   will-change: transform;
@@ -37,14 +36,6 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-}
-
-/* Arrow controls — row layout, centered below the carousel */
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
 }
 
 /* Card styles */

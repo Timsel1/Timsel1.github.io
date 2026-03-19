@@ -6,7 +6,6 @@ import { PrevButton, NextButton, usePrevNextButtons } from "./EmblaCarouselArrow
 import type { Repo } from "../../interfaces/models/repo";
 import styles from "./RepoCarousel.module.css";
 
-// How strongly the scale effect applies — higher = more shrink on side slides
 const TWEEN_FACTOR_BASE = 0.52;
 
 const LANG_COLORS: Record<string, string> = {
@@ -23,7 +22,6 @@ const LANG_COLORS: Record<string, string> = {
 const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max);
 
-// Split array into chunks — each chunk becomes one carousel slide
 function chunk<T>(arr: T[], size: number): T[][] {
   const result: T[][] = [];
   for (let i = 0; i < arr.length; i += size) {
@@ -62,8 +60,9 @@ type Props = {
   options?: EmblaOptionsType;
 };
 
-// Autoplay plugin — 10 seconds, pause on user interaction
-const autoplay = Autoplay({ delay: 10000, stopOnInteraction: true });
+// stopOnInteraction: false means clicking an arrow resets the timer
+// instead of stopping autoplay permanently
+const autoplay = Autoplay({ delay: 10000, stopOnInteraction: false });
 
 export default function RepoCarousel({ repos, options }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -71,15 +70,11 @@ export default function RepoCarousel({ repos, options }: Props) {
     [autoplay],
   );
 
-  // tweenFactor and tweenNodes are refs, not state —
-  // we don't want React to re-render when these change,
-  // we just want to hold a mutable value between renders
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
 
   const { onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi);
 
-  // Collect the inner content nodes that we'll scale
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
       return slideNode.querySelector(".embla-slide-inner") as HTMLElement;
@@ -90,7 +85,6 @@ export default function RepoCarousel({ repos, options }: Props) {
     tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
   }, []);
 
-  // This runs on every scroll tick and updates the scale of each slide
   const tweenScale = useCallback(
     (emblaApi: EmblaCarouselType, eventName?: EmblaEventType) => {
       const engine = emblaApi.internalEngine();
@@ -105,8 +99,6 @@ export default function RepoCarousel({ repos, options }: Props) {
         slidesInSnap.forEach((slideIndex) => {
           if (isScrollEvent && !slidesInView.includes(slideIndex)) return;
 
-          // Adjust diff for looping slides so the scale stays correct
-          // when wrapping from last → first or first → last
           if (engine.options.loop) {
             engine.slideLooper.loopPoints.forEach((loopItem) => {
               const target = loopItem.target();
@@ -143,15 +135,22 @@ export default function RepoCarousel({ repos, options }: Props) {
       .on("slideFocus", tweenScale);
   }, [emblaApi, tweenScale, setTweenNodes, setTweenFactor]);
 
+  // Embla needs at least 3 slides to loop correctly.
+  // With 2 pages we duplicate them: [A, B] → [A, B, A, B]
+  // The cards inside are identical but Embla sees enough slides to loop.
   const pages = chunk(repos, 4);
+  const loopedPages = pages.length < 3 ? [...pages, ...pages] : pages;
 
   return (
     <div className={styles.embla}>
+      {/* Arrows are inside .embla and absolutely positioned on the sides */}
+      <PrevButton onClick={onPrevButtonClick} />
+      <NextButton onClick={onNextButtonClick} />
+
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
-          {pages.map((page, i) => (
+          {loopedPages.map((page, i) => (
             <div className={styles.slide} key={i}>
-              {/* tweenScale targets this inner div — the slide shrinks, not the outer wrapper */}
               <div className={`${styles.slideInner} embla-slide-inner`}>
                 <div className={styles.grid}>
                   {page.map((repo) => (
@@ -162,12 +161,6 @@ export default function RepoCarousel({ repos, options }: Props) {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Arrows sit outside the viewport so they don't get clipped */}
-      <div className={styles.controls}>
-        <PrevButton onClick={onPrevButtonClick} />
-        <NextButton onClick={onNextButtonClick} />
       </div>
     </div>
   );

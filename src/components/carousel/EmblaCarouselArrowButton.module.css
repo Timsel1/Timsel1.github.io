@@ -13,8 +13,19 @@
   transition:
     color 0.15s,
     border-color 0.15s;
-  flex-shrink: 0;
+  /* Absolute positioning — sits on top of the carousel sides */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 2;
+}
+
+/* Target prev/next by order — first button = left, second = right */
+.button:first-of-type {
+  left: 0;
+}
+.button:last-of-type {
+  right: 0;
 }
 
 .button:hover {
