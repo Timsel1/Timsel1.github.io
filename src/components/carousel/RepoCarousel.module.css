@@ -1,0 +1,122 @@
+.embla {
+  position: relative;
+}
+
+/* overflow: hidden here clips slides that are far away,
+   but the padding lets the immediate neighbours peek through */
+.viewport {
+  overflow: hidden;
+  padding: 0 10%;
+}
+
+.container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  gap: 16px;
+  /* negative margin counteracts the viewport padding so
+     the active slide still fills the available width */
+  margin-left: -10%;
+  margin-right: -10%;
+}
+
+/* Each slide is 80% wide — the remaining 20% is shared
+   between the peeking neighbours (10% each side) */
+.slide {
+  flex: 0 0 80%;
+  min-width: 0;
+}
+
+/* The inner wrapper is what gets scaled by tweenScale.
+   transition: transform gives it the smooth ease feel */
+.slideInner {
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* Arrow controls — row layout, centered below the carousel */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Card styles */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s;
+  min-height: 120px;
+}
+
+.card:hover {
+  border-color: #4fc3f7;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.repoName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4fc3f7;
+  font-family: "JetBrains Mono", monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stars {
+  font-size: 11px;
+  color: #555;
+  font-family: "JetBrains Mono", monospace;
+  flex-shrink: 0;
+}
+
+.description {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.5;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardBottom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.langDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lang {
+  font-size: 11px;
+  color: #555;
+  font-family: "JetBrains Mono", monospace;
+}
