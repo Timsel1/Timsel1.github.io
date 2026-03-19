@@ -17,9 +17,9 @@ export default function Sidebar({ onNavigate }: Props) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.logo}>
-        <span className={styles.logoMark}>YN</span>
+        <span className={styles.logoMark}>TM</span>
         <div>
-          <div className={styles.logoText}>yourname.dev</div>
+          <div className={styles.logoText}>Tim.dev</div>
           <div className={styles.logoSub}>portfolio</div>
         </div>
       </div>
