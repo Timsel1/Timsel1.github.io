@@ -6,7 +6,7 @@ import { PrevButton, NextButton, usePrevNextButtons } from "./EmblaCarouselArrow
 import type { Repo } from "../../interfaces/models/repo";
 import styles from "./RepoCarousel.module.css";
 
-const TWEEN_FACTOR_BASE = 0.4;
+const TWEEN_FACTOR_BASE = 0.3;
 
 const LANG_COLORS: Record<string, string> = {
   TypeScript: "#3178c6",
@@ -60,14 +60,12 @@ type Props = {
   options?: EmblaOptionsType;
 };
 
-// stopOnInteraction: false means clicking an arrow resets the timer
-// instead of stopping autoplay permanently
-const autoplay = Autoplay({ delay: 10000, stopOnInteraction: false });
-
 export default function RepoCarousel({ repos, options }: Props) {
+  const autoplayPlugin = useRef(Autoplay({ delay: 10000, stopOnInteraction: false }));
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "center", containScroll: false, ...options },
-    [autoplay],
+    [autoplayPlugin.current],
   );
 
   const tweenFactor = useRef(0);
@@ -75,13 +73,23 @@ export default function RepoCarousel({ repos, options }: Props) {
 
   const { onPrevButtonClick, onNextButtonClick } = usePrevNextButtons(emblaApi);
 
+  const handlePrev = useCallback(() => {
+    onPrevButtonClick();
+    autoplayPlugin.current.reset();
+  }, [onPrevButtonClick]);
+
+  const handleNext = useCallback(() => {
+    onNextButtonClick();
+    autoplayPlugin.current.reset();
+  }, [onNextButtonClick]);
+
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
     tweenNodes.current = emblaApi.slideNodes().map((slideNode) => {
       return slideNode.querySelector(".embla-slide-inner") as HTMLElement;
     });
   }, []);
 
-  const setTweenFactor = useCallback((emblaApi: EmblaCarouselType) => {
+  const setTweenFactor = useCallback((_emblaApi: EmblaCarouselType) => {
     tweenFactor.current = TWEEN_FACTOR_BASE;
   }, []);
 
@@ -135,17 +143,13 @@ export default function RepoCarousel({ repos, options }: Props) {
       .on("slideFocus", tweenScale);
   }, [emblaApi, tweenScale, setTweenNodes, setTweenFactor]);
 
-  // Embla needs at least 3 slides to loop correctly.
-  // With 2 pages we duplicate them: [A, B] → [A, B, A, B]
-  // The cards inside are identical but Embla sees enough slides to loop.
   const pages = chunk(repos, 4);
   const loopedPages = pages.length < 3 ? [...pages, ...pages] : pages;
 
   return (
     <div className={styles.embla}>
-      {/* Arrows are inside .embla and absolutely positioned on the sides */}
-      <PrevButton onClick={onPrevButtonClick} />
-      <NextButton onClick={onNextButtonClick} />
+      <PrevButton onClick={handlePrev} />
+      <NextButton onClick={handleNext} />
 
       <div className={styles.viewport} ref={emblaRef}>
         <div className={styles.container}>
