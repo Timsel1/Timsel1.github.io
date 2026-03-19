@@ -3,4 +3,6 @@ export interface Repo {
   description: string;
   language: string;
   html_url: string;
+  stargazers_count: number;
+  fork: boolean;
 }

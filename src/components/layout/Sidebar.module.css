@@ -1,0 +1,84 @@
+.sidebar {
+  width: 200px;
+  min-width: 200px;
+  background: #141414;
+  border-right: 1px solid #2a2a2a;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  padding: 20px 16px;
+  border-bottom: 1px solid #232323;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoMark {
+  width: 28px;
+  height: 28px;
+  background: #4fc3f7;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0a1929;
+  flex-shrink: 0;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.logoText {
+  font-size: 13px;
+  font-weight: 500;
+  color: #d4d4d4;
+}
+.logoSub {
+  font-size: 10px;
+  color: #555;
+  font-family: monospace;
+}
+
+.nav {
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navLabel {
+  padding: 0 16px 6px;
+  font-size: 9px;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: monospace;
+}
+
+/* NavLink renders an <a> tag — these styles apply to it */
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #777;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.navItem:hover {
+  color: #c8c8c8;
+  background: #1e1e1e;
+}
+
+.active {
+  color: #4fc3f7;
+  background: #1a2a35;
+  border-left-color: #4fc3f7;
+}
