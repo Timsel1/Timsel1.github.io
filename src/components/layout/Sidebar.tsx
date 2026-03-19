@@ -46,7 +46,6 @@ export default function Sidebar({ onNavigate }: Props) {
 
       <div className={styles.footer}>
         <span className={styles.statusDot} />
-        github pages
       </div>
     </aside>
   );
