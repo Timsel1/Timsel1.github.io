@@ -6,7 +6,7 @@ import { PrevButton, NextButton, usePrevNextButtons } from "./EmblaCarouselArrow
 import type { Repo } from "../../interfaces/models/repo";
 import styles from "./RepoCarousel.module.css";
 
-const TWEEN_FACTOR_BASE = 0.52;
+const TWEEN_FACTOR_BASE = 0.4;
 
 const LANG_COLORS: Record<string, string> = {
   TypeScript: "#3178c6",
@@ -82,7 +82,7 @@ export default function RepoCarousel({ repos, options }: Props) {
   }, []);
 
   const setTweenFactor = useCallback((emblaApi: EmblaCarouselType) => {
-    tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
+    tweenFactor.current = TWEEN_FACTOR_BASE;
   }, []);
 
   const tweenScale = useCallback(

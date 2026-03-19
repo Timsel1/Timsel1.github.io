@@ -1,29 +1,21 @@
-/* Outer wrapper — relative so arrows can position against it */
 .embla {
   position: relative;
-  /* Leave space on each side for the arrow buttons (36px button + 8px gap) */
   padding: 0 52px;
 }
 
-/* Clips far slides but padding reveals the peek */
 .viewport {
-  overflow: hidden;
-  /* This padding is what makes neighbours visible —
-     Embla's slides overflow into this space */
-  padding: 0 8%;
+  overflow: clip;
 }
 
 .container {
   display: flex;
   touch-action: pan-y pinch-zoom;
   gap: 16px;
-  margin-left: -8%;
-  margin-right: -8%;
 }
 
-/* 84% wide — 16% left over for peeking neighbours (8% each side) */
+/* 80% wide — the remaining 20% is split between left and right peek (10% each) */
 .slide {
-  flex: 0 0 84%;
+  flex: 0 0 80%;
   min-width: 0;
 }
 
@@ -38,7 +30,6 @@
   gap: 12px;
 }
 
-/* Card styles */
 .card {
   display: flex;
   flex-direction: column;
