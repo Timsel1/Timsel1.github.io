@@ -1,7 +1,17 @@
+import styles from "./FlappyBurd.module.css";
+
 export default function FlappyBird() {
   return (
-    <div>
-      <h1>Flappy Burd</h1>
+    <div className={styles.frame}>
+      <iframe
+        src="/Unity/index.html"
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+        }}
+        allow="fullscreen; autoplay"
+      />
     </div>
   );
 }
