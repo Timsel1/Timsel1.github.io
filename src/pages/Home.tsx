@@ -29,26 +29,26 @@ export default function Home() {
     <div className={styles.page}>
       {/* About section */}
       <section className={styles.about}>
-        <img src={PHOTO_URL} alt="Profile photo" className={styles.photo} />
+        <img /*src={PHOTO_URL}*/ alt="Profile photo" className={styles.photo} />
         <div className={styles.aboutText}>
           <div className={styles.nameRow}>
             <h1 className={styles.name}>Tim M.</h1>
             <span className={styles.role}>// software developer</span>
           </div>
           <div className={styles.bio}>
-            {BIO.map((section) => (
+            {/* {BIO.map((section) => (
               <div key={section.title}>
                 <h2>{section.title}</h2>
                 <p>{section.content}</p>
               </div>
-            ))}
+            ))} */}
           </div>
           <div className={styles.skills}>
-            {SKILLS.map((skill) => (
+            {/* {SKILLS.map((skill) => (
               <span key={skill} className={styles.skill}>
                 {skill}
               </span>
-            ))}
+            ))} */}
           </div>
         </div>
       </section>
@@ -74,7 +74,8 @@ export default function Home() {
                 </div>
                 <span className={styles.internshipDuration}>{item.duration}</span>
               </div>
-              <p className={styles.internshipDesc}>{item.description}</p>
+              {/* <p className={styles.internshipDesc}>{item.description}</p> */}
+              <p className={styles.internshipDesc}></p>
               <div className={styles.internshipStack}>
                 {item.stack.map((tech) => (
                   <span key={tech} className={styles.skill}>
